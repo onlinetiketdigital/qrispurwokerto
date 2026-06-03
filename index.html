@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Purwokerto Run 2026</title>
+
+<style>
+body {
+    margin:0;
+    font-family:'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#f5e6d3,#e8d5b5,#d6c2a1);
+    color:#5a3e2b;
+}
+
+/* Container */
+.container {
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
+
+/* Header */
+.header {
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.header h1 {
+    color:#c85a1a;
+}
+
+.badge {
+    display:inline-block;
+    background:#c85a1a;
+    color:white;
+    padding:8px 15px;
+    border-radius:30px;
+    margin:5px;
+}
+
+/* Card */
+.card {
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom:20px;
+}
+
+/* Category */
+.category {
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.cat-box {
+    flex:1;
+    padding:20px;
+    border-radius:15px;
+    background:linear-gradient(135deg,#d96b2b,#f3a55a);
+    color:white;
+    text-align:center;
+    font-weight:bold;
+}
+
+/* Steps */
+.steps {
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.step {
+    flex:1;
+    min-width:250px;
+    background:#fff;
+    border-radius:15px;
+    padding:15px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+/* Form */
+input, select {
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    margin-bottom:10px;
+    border-radius:10px;
+    border:1px solid #ccc;
+}
+
+button {
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:15px;
+    background:#c85a1a;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+/* QR */
+.qr img {
+    width:180px;
+    margin-top:10px;
+}
+
+/* Pending */
+.pending {
+    display:none;
+    text-align:center;
+    padding:30px;
+}
+
+.loading {
+    height:10px;
+    background:#eee;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:15px;
+}
+
+.loading div {
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#c85a1a,#f3a55a);
+    animation:load 3s linear forwards;
+}
+
+@keyframes load {
+    to {width:100%;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+    <h1>🏃 PURWOKERTO RUN 2026</h1>
+    <div class="badge">5K</div>
+    <div class="badge">10K</div>
+    <p>21 Juni 2026 - Menara Teratai</p>
+</div>
+
+<!-- CATEGORY -->
+<div class="card">
+    <h3>Category & Register Fee</h3>
+    <div class="category">
+        <div class="cat-box">
+            5K<br>Rp.150.000
+        </div>
+        <div class="cat-box">
+            10K<br>Rp.175.000
+        </div>
+    </div>
+</div>
+
+<!-- STEP -->
+<div class="card">
+    <h3>3 Step Registration</h3>
+    <div class="steps">
+
+        <div class="step">
+            <h4>1. Isi Form</h4>
+            <p>Lengkapi data diri</p>
+        </div>
+
+        <div class="step qr">
+            <h4>2. Bayar QRIS</h4>
+            <p>Scan QR berikut</p>
+            <img src="qris.png" alt="QRIS">
+        </div>
+
+        <div class="step">
+            <h4>3. Konfirmasi</h4>
+            <p>Tunggu verifikasi</p>
+        </div>
+
+    </div>
+</div>
+
+<!-- FORM -->
+<div class="card" id="formBox">
+    <h3>Form Pendaftaran</h3>
+
+    <form id="form">
+        <input type="text" placeholder="Nama Lengkap" required>
+        <input type="email" placeholder="Email" required>
+        <input type="tel" placeholder="No HP" required>
+
+        <select required>
+            <option value="">Pilih Kategori</option>
+            <option>5K</option>
+            <option>10K</option>
+        </select>
+
+        <button type="submit">DAFTAR SEKARANG</button>
+    </form>
+</div>
+
+<!-- PENDING -->
+<div class="card pending" id="pendingBox">
+    <h2>⏳ PENDAFTARAN ANDA PENDING</h2>
+    <p>Anda akan diarahkan ke pembayaran QRIS</p>
+
+    <div class="loading"><div></div></div>
+    <p>Redirect dalam 3 detik...</p>
+</div>
+
+</div>
+
+<script>
+document.getElementById("form").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    document.getElementById("formBox").style.display="none";
+    document.getElementById("pendingBox").style.display="block";
+
+    setTimeout(()=>{
+        window.location.href="https://www.qrispurwokerto.run";
+    },3000);
+});
+</script>
+
+</body>
+</html>
