@@ -7,226 +7,209 @@
 
 <style>
 body {
+    font-family: 'Segoe UI', sans-serif;
     margin:0;
-    font-family:'Segoe UI', sans-serif;
     background: linear-gradient(135deg,#f5e6d3,#e8d5b5,#d6c2a1);
-    color:#5a3e2b;
 }
 
 /* Container */
 .container {
-    max-width:900px;
+    max-width:700px;
     margin:auto;
     padding:20px;
 }
 
 /* Header */
-.header {
+h1 {
     text-align:center;
-    margin-bottom:30px;
-}
-
-.header h1 {
     color:#c85a1a;
 }
 
-.badge {
-    display:inline-block;
+/* Progress */
+.progress {
+    display:flex;
+    justify-content:space-between;
+    margin:30px 0;
+}
+
+.progress div {
+    flex:1;
+    text-align:center;
+    position:relative;
+}
+
+.progress div::before {
+    content:'';
+    width:30px;
+    height:30px;
+    display:block;
+    margin:auto;
+    border-radius:50%;
+    background:#ccc;
+}
+
+.progress .active::before {
     background:#c85a1a;
-    color:white;
-    padding:8px 15px;
-    border-radius:30px;
-    margin:5px;
+}
+
+.progress div::after {
+    content:'';
+    position:absolute;
+    top:15px;
+    left:50%;
+    width:100%;
+    height:4px;
+    background:#ccc;
+    z-index:-1;
+}
+
+.progress div:last-child::after {
+    display:none;
 }
 
 /* Card */
 .card {
     background:white;
-    padding:20px;
+    padding:25px;
     border-radius:20px;
     box-shadow:0 10px 30px rgba(0,0,0,0.1);
-    margin-bottom:20px;
 }
 
-/* Category */
-.category {
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-}
-
-.cat-box {
-    flex:1;
-    padding:20px;
-    border-radius:15px;
-    background:linear-gradient(135deg,#d96b2b,#f3a55a);
-    color:white;
-    text-align:center;
-    font-weight:bold;
-}
-
-/* Steps */
-.steps {
-    display:flex;
-    gap:15px;
-    flex-wrap:wrap;
-}
-
+/* Hidden */
 .step {
-    flex:1;
-    min-width:250px;
-    background:#fff;
-    border-radius:15px;
-    padding:15px;
-    text-align:center;
-    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+    display:none;
 }
 
-/* Form */
+.step.active {
+    display:block;
+}
+
+/* Input */
 input, select {
     width:100%;
-    padding:10px;
-    margin-top:5px;
+    padding:12px;
     margin-bottom:10px;
     border-radius:10px;
     border:1px solid #ccc;
 }
 
+/* Button */
 button {
-    width:100%;
-    padding:15px;
+    padding:12px;
     border:none;
-    border-radius:15px;
+    border-radius:10px;
     background:#c85a1a;
     color:white;
-    font-size:16px;
     cursor:pointer;
+    width:100%;
 }
 
 /* QR */
-.qr img {
-    width:180px;
-    margin-top:10px;
-}
-
-/* Pending */
-.pending {
-    display:none;
+.qr {
     text-align:center;
-    padding:30px;
 }
 
+.qr img {
+    width:200px;
+    margin:15px 0;
+}
+
+/* Loading */
 .loading {
     height:10px;
     background:#eee;
     border-radius:10px;
     overflow:hidden;
-    margin-top:15px;
 }
 
 .loading div {
     height:100%;
-    width:0%;
-    background:linear-gradient(90deg,#c85a1a,#f3a55a);
+    background:#c85a1a;
     animation:load 3s linear forwards;
 }
 
 @keyframes load {
+    from {width:0;}
     to {width:100%;}
 }
 </style>
-</head>
 
+</head>
 <body>
 
 <div class="container">
 
-<!-- HEADER -->
-<div class="header">
-    <h1>🏃 PURWOKERTO RUN 2026</h1>
-    <div class="badge">5K</div>
-    <div class="badge">10K</div>
-    <p>21 Juni 2026 - Menara Teratai</p>
+<h1>🏃 PURWOKERTO RUN 2026</h1>
+
+<!-- Progress -->
+<div class="progress">
+    <div class="active">1</div>
+    <div>2</div>
+    <div>3</div>
 </div>
 
-<!-- CATEGORY -->
 <div class="card">
-    <h3>Category & Register Fee</h3>
-    <div class="category">
-        <div class="cat-box">
-            5K<br>Rp.150.000
-        </div>
-        <div class="cat-box">
-            10K<br>Rp.175.000
-        </div>
+
+<!-- STEP 1 -->
+<div class="step active" id="step1">
+    <h3>Step 1: Data Peserta</h3>
+
+    <input type="text" placeholder="Nama Lengkap" required>
+    <input type="email" placeholder="Email" required>
+    <input type="tel" placeholder="No HP" required>
+
+    <select>
+        <option value="">Pilih Kategori</option>
+        <option>5K - Rp150.000</option>
+        <option>10K - Rp175.000</option>
+    </select>
+
+    <button onclick="nextStep(2)">LANJUT KE PEMBAYARAN</button>
+</div>
+
+<!-- STEP 2 -->
+<div class="step" id="step2">
+    <h3>Step 2: Pembayaran QRIS</h3>
+    <p>Silakan scan QR berikut untuk pembayaran</p>
+
+    <div class="qr">
+        <img src="qris.png" alt="QRIS">
     </div>
+
+    <button onclick="nextStep(3)">SAYA SUDAH BAYAR</button>
 </div>
 
-<!-- STEP -->
-<div class="card">
-    <h3>3 Step Registration</h3>
-    <div class="steps">
+<!-- STEP 3 -->
+<div class="step" id="step3">
+    <h3>Step 3: Status Pendaftaran</h3>
 
-        <div class="step">
-            <h4>1. Isi Form</h4>
-            <p>Lengkapi data diri</p>
-        </div>
-
-        <div class="step qr">
-            <h4>2. Bayar QRIS</h4>
-            <p>Scan QR berikut</p>
-            <img src="qris.png" alt="QRIS">
-        </div>
-
-        <div class="step">
-            <h4>3. Konfirmasi</h4>
-            <p>Tunggu verifikasi</p>
-        </div>
-
-    </div>
-</div>
-
-<!-- FORM -->
-<div class="card" id="formBox">
-    <h3>Form Pendaftaran</h3>
-
-    <form id="form">
-        <input type="text" placeholder="Nama Lengkap" required>
-        <input type="email" placeholder="Email" required>
-        <input type="tel" placeholder="No HP" required>
-
-        <select required>
-            <option value="">Pilih Kategori</option>
-            <option>5K</option>
-            <option>10K</option>
-        </select>
-
-        <button type="submit">DAFTAR SEKARANG</button>
-    </form>
-</div>
-
-<!-- PENDING -->
-<div class="card pending" id="pendingBox">
-    <h2>⏳ PENDAFTARAN ANDA PENDING</h2>
-    <p>Anda akan diarahkan ke pembayaran QRIS</p>
+    <h2>⏳ PENDING</h2>
+    <p>Verifikasi pembayaran sedang diproses</p>
 
     <div class="loading"><div></div></div>
-    <p>Redirect dalam 3 detik...</p>
+
+    <p>Redirect ke pembayaran resmi...</p>
 </div>
 
+</div>
 </div>
 
 <script>
-document.getElementById("form").addEventListener("submit", function(e){
-    e.preventDefault();
+function nextStep(step){
+    document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+    document.getElementById('step'+step).classList.add('active');
 
-    document.getElementById("formBox").style.display="none";
-    document.getElementById("pendingBox").style.display="block";
+    document.querySelectorAll('.progress div').forEach(p=>p.classList.remove('active'));
+    for(let i=0;i<step;i++){
+        document.querySelectorAll('.progress div')[i].classList.add('active');
+    }
 
-    setTimeout(()=>{
-        window.location.href="https://www.qrispurwokerto.run";
-    },3000);
-});
+    if(step === 3){
+        setTimeout(()=>{
+            window.location.href="https://www.qrispurwokerto.run";
+        },3000);
+    }
+}
 </script>
 
 </body>
